@@ -41,6 +41,10 @@ app.post('/submit', (req, res) => {
   res.send('<h2>POST request received!</h2><pre>' + JSON.stringify(req.body, null, 2) + '</pre>');
 });
 
+//Quiz.js
+app.use('/users', userRouter);
+app.use('/quiz', quizRouter);
+
 app.listen(3030, () => {
   console.log('Server running on http://localhost:3030');
 });
