@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <p>Hello</p>
+    <%
+        //Getting words from server
+        let randomIndex = parseInt(Math.random()*chosenWord.length);// generate a random number
+        let chosenWord = chosenWord[randomIndex];// pick that as our correct word
+        let [correctWord, correctPart, correctdef] = chosenWord.split('\t');// break into parts
+     %>
+     <h1>Word Quiz!</h1>
+     <!--Show the word and part of speech-->
+     <h2><%= correctWord%> - <%= correctPart %></h2>
+     <form action="quiz" method="post"><!--submits to quiz.js-->
+     <ol>
+        <% for (currentWord of chosenwords){
+            //loop through each word, show its definition only in the list
+            let [word, part, def] = currentWord.split('\t'); %>
+            <li>
+                <label>
+                    <input type="radio" name="userChoice" value="<%= def %>">
+                    <%= def %>
+                </label>
+            </li>
+        <% } %>
+     </ol>
+     <input type="submit" value="Submit Answer!">
+     <input type="hidden" name="correctDef" value="<%= correctDef %>">
+     </form>
 </body>
 </html>

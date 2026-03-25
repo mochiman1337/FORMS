@@ -10,7 +10,12 @@ router.get("/", async (req,res) =>{
     let chosenWords = await getWords();
     //Send those back and render quiz.ejs
     //console.log("Chosen Words: ", chosenWords);//Testing
-    res.render('quiz', {chosenWords});//Check Discord!
+    res.render('quiz', {chosenWords});//Check Discord! Rendering the ejs, js is the behavior
+});
+
+//March.25 class work
+router.post("/", (req,res)=>{
+    console.log(req.body);//debug check
 });
 
 let getWords = async ()=>{
