@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const userRouter = require('.routes/users');//Added user routes
+const userRouter = require('./routes/users');//Added user routes
+const quizRouter = require('./routes/quiz')//Added quiz routes Mar.25
 
 app.set('view engine', 'ejs');
 app.use(express.static("public"));//This is important for index.html to work
@@ -10,6 +11,7 @@ app.use(express.static("public"));//This is important for index.html to work
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('users', userRouter);//Added user routes
+app.use('quiz', quizRouter);//Added quiz routes March25
 
 //for adder.html
 app.get('/solution'), (req,res) =>{
