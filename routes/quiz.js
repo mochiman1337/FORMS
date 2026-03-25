@@ -1,22 +1,32 @@
 const express = require('express');
-const { arrayBuffer } = require('stream/consumers');
+const {arrayBuffer} = require('stream/consumers');
 const router = express.Router();
-const {readfile} = require('fs').promises;
+const {readFile} = require('fs').promises;
 
 //Work goes here
-
 router.get("/", async (req,res) =>{
     //Get 4 words, with their pos and def and send back to the other page
     let chosenWords = await getWords();
     //Send those back and render quiz.ejs
     //console.log("Chosen Words: ", chosenWords);//Testing
     res.render('quiz', {chosenWords});//Check Discord! Rendering the ejs, js is the behavior
-});
+});//Get when user directly types into URL
 
 //March.25 class work
 router.post("/", (req,res)=>{
     console.log(req.body);//debug check
-});
+    let {userChoice, correctDef} = req.body;
+    if (userChoice === correctDef){
+        console.log("User guessed correctly!");//Good
+        //Score++
+        let score = totalCorrect+1;
+    }
+    //totalQuestions++
+        let total = totalQuestions+1;
+        //Get another new set of words
+        //Send that set of words back
+        //Send some other data back
+});//Happens when user press Submit button
 
 let getWords = async ()=>{
     //Get a random part of speech
@@ -29,7 +39,7 @@ let getWords = async ()=>{
 
     let choices = [];
     while(choices.length <5){ //Keep looping until we get 5 choices
-        let line = wordArry.pop();//one line as a string
+        let line = wordArray.pop();//one line as a string
         //let [word,  part, def] = line.split('\t'); //This is the same as code below
         let tokens = line.split('\t');
         let word = tokens[0];
@@ -48,7 +58,7 @@ let getRandomPart = ()=>{
     return randomPart;
 }
 
-let suffle = (array)=>{
+let shuffle = (array)=>{
     for(let i=array.length-1;i>0;i--){
         let randomNumber = Math.floor(Math.random()*(i+1));
         [array[i], array[randomNumber]] = [array[randomNumber], array[i]];
