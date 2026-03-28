@@ -10,6 +10,7 @@ app.use(express.static("public"));//This is important for index.html to work
 // Middleware to parse form data
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 app.use('/users', userRouter);//Added user routes
 app.use('/quiz', quizRouter);//Added quiz routes March25
 
@@ -44,7 +45,7 @@ app.post('/submit', (req, res) => {
 });
 
 //Quiz.js
-app.use('/users', userRouter);
+app.use('/users', userRouter);// Always have this AFTER we get access
 app.use('/quiz', quizRouter);
 
 app.listen(3030, () => {

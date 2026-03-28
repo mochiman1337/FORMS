@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <H1>Current Users List</H1>
+    <h2> First Name | Last Name </h2>
+    <h3>"Private information is hidden"</h3>
+    <ul>
+    <%
+        let users = locals.users;
+        for (user of users){ %>
+            <li><%= user.firstName %> &nbsp <%= user.lastName %></li>
+    <%} %>
+    </ul>
+    <br/>
+    <a href="/users/userid">Go To User ID Page</a><!-- This is a link tag -->
+</body>
+</html>

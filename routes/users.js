@@ -1,12 +1,40 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res)=>{
+router.route('/').get((req, res)=>{
     res.send('User List');
+}).post((req,res) =>{
+    //res.send("Create User");
+    const firstName = req.body.firstName;
+
+
+    const lastName = req.body.lastName;
+    const age = req.body.age;
+    const gender = req.body.gender;
+    const isValid = firstName !=="" && lastName !=="" && age !=="" && gender !=="";
+    if (isValid){
+        console.log(`Adding user: ${firstName}, ${lastName}, ${age}, ${gender}`);
+        users.push({firstName, lastName, age, gender});
+        res.render('users/list', {users});
+    }
+    else{
+        console.log("Error adding User!");
+        res.render("users/new", {firstName: firstName, lastName: lastName, age: age, gender: gender});
+    }
+
+});
+
+router.get('/userid', (req,res)=>{
+    res.render('users/userid', {users});
+});
+
+
+router.get('/list', (req,res)=>{
+    res.render('users/list', {users});
 });
 
 router.get('/new', (req, res)=>{
-    res.send('User New Form');
+    res.render('users/new', {firstName:""})
 });
 
 //Dynamic route
@@ -17,11 +45,24 @@ router.get('/:id', (req,res)=>{
 */
 
 router.route('/:id').get((req, res)=>{
- res.send(`Getting User data for id: ${req.params.id}`);
+    console.log(req.user);
+    console.log('Getting user data!')
+    res.send(`Getting User data for id: ${req.user['name']}`);
 }).delete((req, res)=>{
-res.send(`Deleting User data for id: ${req.params.id}`);
+    res.send(`Deleting User data for id: ${req.params.id}`);
 }).put((req, res)=>{
-res.send(`Updating User data for id: ${req.params.id}`);
+    res.send(`Updating User data for id: ${req.params.id}`);
 });//improved multi-rule route
+
+
+const users = [
+    {firstName:"John", lastName:"Doe", age:"44", gender:"Male"},
+    {firstName:"Jane", lastName:"Doe", age:"30", gender:"Female"}];
+
+router.param("id", (req, res, next, id) =>{
+    req.user = users[id];
+    console.log("Access attempt by user:", id);
+    next();
+});//This happens before the router above. Called a middleware
 
 module.exports = router;//Always keep this at the end!
