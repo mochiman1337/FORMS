@@ -8,9 +8,9 @@
         //Getting words from server
         let questionCount = locals.totalQuestions ?? 0;//?? null operator, OR
         let score = locals.totalCorrect ?? 0;
-        let randomIndex = parseInt(Math.random()*chosenWord.length);// generate a random number
-        let chosenWord = chosenWord[randomIndex];// pick that as our correct word
-        let [correctWord, correctPart, correctdef] = chosenWord.split('\t');// break into parts
+        let randomIndex = parseInt(Math.random()*chosenWords.length);// generate a random number
+        let chosenWord = chosenWords[randomIndex];// pick that as our correct word
+        let [correctWord, correctPart, correctDef] = chosenWord.split('\t');// break into parts
      %>
      <!--Show the word and part of speech-->
      <% if (questionCount ===0) {%>
@@ -18,10 +18,10 @@
         <%} else {%>
             <h1>Score: <%= score %> / <%= questionCount%></h1>
         <% } %>
-     <h2><%= correctWord%> - <%= correctPart %></h2>
+     <h2><%= correctWord %> - <%= correctPart %></h2>
      <form action="quiz" method="post"><!--submits to quiz.js-->
      <ol>
-        <% for (currentWord of chosenwords){
+        <% for (currentWord of chosenWords){
             //loop through each word, show its definition only in the list
             let [word, part, def] = currentWord.split('\t'); %>
             <li>

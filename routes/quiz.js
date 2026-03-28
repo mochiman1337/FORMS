@@ -7,7 +7,7 @@ router.get("/", async (req,res) =>{
     //Get 4 words, with their pos and def and send back to the other page
     let chosenWords = await getWords();
     //Send those back and render quiz.ejs
-    //console.log("Chosen Words: ", chosenWords);//Testing
+    //console.log("Chosen Words: ", chosenWords);
     res.render('quiz', {chosenWords});//Check Discord! Rendering the ejs, js is the behavior
 });//Get when user directly types into URL
 
@@ -33,7 +33,9 @@ let getWords = async ()=>{
     let randomPart = getRandomPart();
     //Based on that, pick 4 words that match
     let allWords = await readFile('resources/allwords.txt', 'utf8');//Reads all words as 1 giant string
+    //console.log(allWords);
     let wordArray = allWords.split('\n');//Splits the single string into an array where each line is a index
+    //console.log(wordArray);
     shuffle(wordArray);//shuffle that array
 
     let choices = [];
@@ -48,6 +50,8 @@ let getWords = async ()=>{
             choices.push(line);
         }
     }
+    //console.log(choices);
+    return choices;
 }
 
 let getRandomPart = ()=>{
