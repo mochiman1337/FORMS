@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Document</title>
+    <title>Word Quiz: Quest Tres!</title>
+    
+    <!-- This is CSS style Tag -->
+    <style>
+        .correct { color: green; font-weight: bold;}
+        .incorrect { color: red; font-weight: bold;}
+    </style>
 </head>
 <body>
     <%
@@ -13,20 +19,37 @@
         let [correctWord, correctPart, correctDef] = chosenWord.split('\t');// break into parts
      %>
      <!--Show the word and part of speech-->
-     <% if (questionCount ===0) {%>
+     <% if (questionCount === 0) {%>
             <h1>Welcome to word quiz!</h1>
         <%} else {%>
             <h1>Score: <%= score %> / <%= questionCount%></h1>
         <% } %>
+
+        <!-- Added to keep track of #right and # wrong-->
+        <h3>
+            <span class="correct">Right: <%= score %></span> |
+            <span class="incorrect">Wrong: <%= questionCount - score %></span>
+        </h3>
+    
+     <!-- Added for showing correct and incorrect -->   
+     <% if (typeof isCorrect !== 'undefined') { %>
+        <% if (isCorrect) { %>
+            <p><span class="correct">Correct!</span></p>
+        <%} else { %>
+            <p><span class="incorrect">Incorrect!</span></p>
+            <p><span style="font-weight: bold;">The correct definition was:</span> <%= previousDef %></p>    
+        <% } %>
+     <% } %>
+
      <h2><%= correctWord %> - <%= correctPart %></h2>
-     <form action="quiz" method="post"><!--submits to quiz.js-->
+     <form method="post"><!--submits to quiz.js-->
      <ol>
         <% for (currentWord of chosenWords){
             //loop through each word, show its definition only in the list
             let [word, part, def] = currentWord.split('\t'); %>
             <li>
                 <label>
-                    <input type="radio" name="userChoice" value="<%= def %>">
+                    <input type="radio" name="userChoice" value="<%= def %>" required>
                     <%= def %>
                 </label>
             </li>
